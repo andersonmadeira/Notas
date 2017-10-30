@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Adicionar nota</string>
+    <string name="app_name">Notas</string>
 
     <!-- Menu -->
     <string name="menu_undo">Undo</string>

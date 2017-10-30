@@ -1,6 +1,7 @@
 package br.com.andersonmadeira.notas;
 
 import android.content.DialogInterface;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import io.github.mthli.knife.KnifeText;
 public class EditorActivity extends AppCompatActivity {
 
     private KnifeText knife;
+    private FloatingActionButton fabSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,14 @@ public class EditorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editor);
 
         knife = (KnifeText) findViewById(R.id.knife);
+
+        fabSave = (FloatingActionButton) findViewById(R.id.fabSave);
+        fabSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         setupBold();
         setupItalic();
@@ -237,12 +247,6 @@ public class EditorActivity extends AppCompatActivity {
                 break;
             case R.id.redo:
                 knife.redo();
-                break;
-            case R.id.save:
-                finish();
-                break;
-            case R.id.cancel:
-                finish();
                 break;
             default:
                 break;

@@ -14,16 +14,4 @@
         app:showAsAction="ifRoom">
     </item>
 
-    <item android:id="@+id/save"
-        android:title="@string/menu_save"
-        android:icon="@drawable/ic_save_white_24dp"
-        app:showAsAction="ifRoom">
-    </item>
-
-    <item android:id="@+id/cancel"
-        android:title="@string/menu_cancel"
-        android:icon="@drawable/ic_cancel_white_24dp"
-        app:showAsAction="ifRoom">
-    </item>
-
 </menu>
