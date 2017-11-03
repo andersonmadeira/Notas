@@ -1,14 +1,15 @@
 package br.com.andersonmadeira.notas.model;
 
+import com.orm.SugarRecord;
+
 import java.util.Date;
 
 /**
  * Created by anderson on 29/10/17.
  */
 
-public class Note {
+public class Note extends SugarRecord {
     private String title, content;
-    private Date createdAt, updatedAt;
 
     public Note() {
 
@@ -17,8 +18,6 @@ public class Note {
     public Note(String title, String content) {
         this.title = title;
         this.content = content;
-        this.createdAt = new Date();
-        this.updatedAt = new Date();
     }
 
     public String getTitle() {
@@ -37,16 +36,8 @@ public class Note {
         this.content = content;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void save() {
-        // save
-        this.updatedAt = new Date();
+    @Override
+    public String toString() {
+        return title;
     }
 }

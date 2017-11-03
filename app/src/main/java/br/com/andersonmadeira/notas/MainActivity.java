@@ -1,13 +1,19 @@
 package br.com.andersonmadeira.notas;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.preference.ListPreference;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +24,14 @@ import br.com.andersonmadeira.notas.model.Note;
 public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton fabAdd;
-    private MainActivity activity;
+    private MainActivity thisActivity;
     private RecyclerView recyclerView;
     private List<Note> noteList = new ArrayList<>();
     private NotesAdapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        activity = this;
+        thisActivity = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -33,69 +39,62 @@ public class MainActivity extends AppCompatActivity {
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(activity, EditorActivity.class));
+                final AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
+                LayoutInflater inflater = thisActivity.getLayoutInflater();
+
+                builder.setView(inflater.inflate(R.layout.note_name_input_layout, null))
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                TextView tvTitle = ((TextView) ((AlertDialog)dialog).findViewById(R.id.etTitle));
+                                String title = tvTitle.getText().toString();
+
+                                Intent intent = new Intent(thisActivity, EditorActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putInt("id", 0);
+                                bundle.putString("title", title);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // pass
+                            }
+                        });
+
+                builder.show();
+
             }
         });
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        myAdapter = new NotesAdapter(noteList);
+        myAdapter = new NotesAdapter(noteList, thisActivity);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(myAdapter);
 
-        prepareNotes();
+        loadData();
     }
 
-    private void prepareNotes() {
-        Note note = new Note("Mad Max: Fury Road", "Action & Adventure");
-        noteList.add(note);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadData();
+    }
 
-        note = new Note("Inside Out", "Animation, Kids & Family");
-        noteList.add(note);
+    private void loadData() {
+        List<Note> elems = Note.listAll(Note.class);
 
-        note = new Note("Star Wars: Episode VII - The Force Awakens", "Action");
-        noteList.add(note);
+        noteList.clear();
 
-        note = new Note("Shaun the Sheep", "Animation");
-        noteList.add(note);
-
-        note = new Note("The Martian", "Science Fiction & Fantasy");
-        noteList.add(note);
-
-        note = new Note("Mission: Impossible Rogue Nation", "Action");
-        noteList.add(note);
-
-        note = new Note("Up", "Animation");
-        noteList.add(note);
-
-        note = new Note("Star Trek", "Science Fiction");
-        noteList.add(note);
-
-        note = new Note("The LEGO Movie", "Animation");
-        noteList.add(note);
-
-        note = new Note("Iron Man", "Action & Adventure");
-        noteList.add(note);
-
-        note = new Note("Aliens", "Science Fiction");
-        noteList.add(note);
-
-        note = new Note("Chicken Run", "Animation");
-        noteList.add(note);
-
-        note = new Note("Back to the Future", "Science Fiction");
-        noteList.add(note);
-
-        note = new Note("Raiders of the Lost Ark", "Action & Adventure");
-        noteList.add(note);
-
-        note = new Note("Goldfinger", "Action & Adventure");
-        noteList.add(note);
-
-        note = new Note("Guardians of the Galaxy", "Science Fiction & Fantasy");
-        noteList.add(note);
+        for ( Note n : elems ) {
+            Log.d("title: ", n.toString());
+            noteList.add(n);
+        }
 
         myAdapter.notifyDataSetChanged();
     }

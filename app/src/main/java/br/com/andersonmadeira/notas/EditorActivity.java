@@ -13,15 +13,20 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import br.com.andersonmadeira.notas.model.Note;
 import io.github.mthli.knife.KnifeText;
 
 public class EditorActivity extends AppCompatActivity {
 
     private KnifeText knife;
     private FloatingActionButton fabSave;
+    private EditorActivity thisActivity;
+
+    private Note note;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        thisActivity = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
@@ -31,9 +36,22 @@ public class EditorActivity extends AppCompatActivity {
         fabSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                thisActivity.saveNote();
+                thisActivity.finish();
             }
         });
+
+        Bundle b = getIntent().getExtras();
+        long id = b.getLong("id");
+
+        if( id == 0 ) {
+            note = new Note(b.getString("title"), "");
+        } else {
+            note = Note.findById(Note.class, id);
+            knife.fromHtml(note.getContent());
+        }
+
+        setTitle(note.getTitle());
 
         setupBold();
         setupItalic();
@@ -43,6 +61,11 @@ public class EditorActivity extends AppCompatActivity {
         setupQuote();
         setupLink();
         setupClear();
+    }
+
+    private void saveNote() {
+        note.setContent( knife.toHtml() );
+        note.save();
     }
 
     private void setupBold() {
@@ -248,10 +271,19 @@ public class EditorActivity extends AppCompatActivity {
             case R.id.redo:
                 knife.redo();
                 break;
+            case R.id.delete:
+                deleteNote();
+                break;
             default:
                 break;
         }
 
         return true;
+    }
+
+    private void deleteNote() {
+        if ( note.getId() != null)
+            note.delete();
+        finish();
     }
 }

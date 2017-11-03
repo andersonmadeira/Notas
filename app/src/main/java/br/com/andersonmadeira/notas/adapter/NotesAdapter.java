@@ -1,5 +1,8 @@
 package br.com.andersonmadeira.notas.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import br.com.andersonmadeira.notas.EditorActivity;
 import br.com.andersonmadeira.notas.R;
 import br.com.andersonmadeira.notas.model.Note;
 
@@ -16,20 +20,34 @@ import br.com.andersonmadeira.notas.model.Note;
  */
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder> {
+    private final Context context;
     private List<Note> notes;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView title, content;
+        public long id;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
             title = (TextView) itemView.findViewById(R.id.tvTitle);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, EditorActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("id", id);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
-    public NotesAdapter(List<Note> noteList) {
+    public NotesAdapter(List<Note> noteList, Context context) {
+        this.context = context;
         this.notes = noteList;
     }
 
@@ -45,6 +63,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Note note = notes.get(position);
         holder.title.setText(note.getTitle());
+        holder.id = note.getId();
     }
 
     @Override
