@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 
+import java.util.Date;
+
 import br.com.andersonmadeira.notas.model.Note;
 import io.github.mthli.knife.KnifeText;
 
@@ -54,7 +56,7 @@ public class EditorActivity extends AppCompatActivity {
             knife.fromHtml(note.getContent());
         }
 
-        Log.d("CONTENT", note.getContent());
+        Log.d("UPDATE:", ""+note.getUpdatedAt());
 
         setTitle(note.getTitle());
 
@@ -72,7 +74,8 @@ public class EditorActivity extends AppCompatActivity {
         String html = knife.toHtml();
         String plainText = Jsoup.parse(html).text();
         note.setContent( html );
-        note.setExcerpt( plainText.substring(0, Math.min(plainText.length(), 100)) );
+        note.setExcerpt( plainText.substring(0, Math.min(plainText.length(), 150)) );
+        note.setUpdatedAt( new Date() );
         note.save();
     }
 

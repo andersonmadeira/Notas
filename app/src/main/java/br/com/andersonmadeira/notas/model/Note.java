@@ -1,7 +1,6 @@
 package br.com.andersonmadeira.notas.model;
 
 import com.orm.SugarRecord;
-
 import java.util.Date;
 
 /**
@@ -10,6 +9,7 @@ import java.util.Date;
 
 public class Note extends SugarRecord {
     private String title, content, excerpt;
+    private Date updatedAt;
 
     public Note() {
 
@@ -47,5 +47,13 @@ public class Note extends SugarRecord {
 
     public void setExcerpt(String excerpt) {
         this.excerpt = excerpt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="80dp"
+    android:layout_width="match_parent" android:layout_height="100dp"
     android:focusable="true"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
@@ -21,9 +21,20 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:id="@+id/tvUpdatedAt"
+        android:textColor="@color/updatedAt"
+        android:layout_below="@id/tvTitle"
+        android:textStyle="bold"
+        android:textSize="14dp"
+        android:text="00/00/00"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
         android:id="@+id/tvExcerpt"
         android:textColor="@color/excerpt"
-        android:layout_below="@id/tvTitle"
+        android:layout_below="@id/tvUpdatedAt"
+        android:maxLines="2"
         android:textSize="14dp"
         android:text="Text Plain Content"
         android:layout_width="match_parent"

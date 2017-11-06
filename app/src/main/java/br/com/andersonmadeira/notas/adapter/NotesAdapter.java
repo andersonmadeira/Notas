@@ -9,10 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.List;
 
 import br.com.andersonmadeira.notas.EditorActivity;
 import br.com.andersonmadeira.notas.R;
+import br.com.andersonmadeira.notas.Util.Util;
 import br.com.andersonmadeira.notas.model.Note;
 
 /**
@@ -25,7 +27,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvTitle, tvExcerpt;
+        public TextView tvTitle, tvExcerpt, tvUpdatedAt;
         public long id;
 
         public MyViewHolder(View itemView) {
@@ -33,6 +35,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
 
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
             tvExcerpt = (TextView) itemView.findViewById(R.id.tvExcerpt);
+            tvUpdatedAt = (TextView) itemView.findViewById(R.id.tvUpdatedAt);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -63,8 +66,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Note note = notes.get(position);
+        Date date = note.getUpdatedAt();
         holder.tvTitle.setText(note.getTitle());
         holder.tvExcerpt.setText(note.getExcerpt());
+        holder.tvUpdatedAt.setText(Util.formatDateFull(note.getUpdatedAt()));
         holder.id = note.getId();
     }
 
