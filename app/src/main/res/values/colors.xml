@@ -8,4 +8,5 @@
     <color name="blue_700">#FF1976D2</color>
     <color name="year">#999999</color>
     <color name="title">#222222</color>
+    <color name="excerpt">#5e5e5e</color>
 </resources>

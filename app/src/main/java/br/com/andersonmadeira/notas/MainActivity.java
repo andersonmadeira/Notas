@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                                 Intent intent = new Intent(thisActivity, EditorActivity.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putInt("id", 0);
-                                bundle.putString("title", title);
+                                bundle.putString("tvTitle", title);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                             }
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         noteList.clear();
 
         for ( Note n : elems ) {
-            Log.d("title: ", n.toString());
+            Log.d("tvTitle: ", n.toString());
             noteList.add(n);
         }
 

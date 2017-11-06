@@ -12,7 +12,7 @@
 
         android:theme="@style/AppTheme">
         <meta-data android:name="DATABASE" android:value="notes.db" />
-        <meta-data android:name="VERSION" android:value="3" />
+        <meta-data android:name="VERSION" android:value="5" />
         <meta-data android:name="QUERY_LOG" android:value="true" />
         <activity android:name=".MainActivity">
             <intent-filter>

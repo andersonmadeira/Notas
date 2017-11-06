@@ -6,12 +6,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import org.jsoup.Jsoup;
 
 import br.com.andersonmadeira.notas.model.Note;
 import io.github.mthli.knife.KnifeText;
@@ -45,11 +48,13 @@ public class EditorActivity extends AppCompatActivity {
         long id = b.getLong("id");
 
         if( id == 0 ) {
-            note = new Note(b.getString("title"), "");
+            note = new Note(b.getString("tvTitle"), "");
         } else {
             note = Note.findById(Note.class, id);
             knife.fromHtml(note.getContent());
         }
+
+        Log.d("CONTENT", note.getContent());
 
         setTitle(note.getTitle());
 
@@ -64,7 +69,10 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void saveNote() {
-        note.setContent( knife.toHtml() );
+        String html = knife.toHtml();
+        String plainText = Jsoup.parse(html).text();
+        note.setContent( html );
+        note.setExcerpt( plainText.substring(0, Math.min(plainText.length(), 100)) );
         note.save();
     }
 

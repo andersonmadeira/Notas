@@ -9,7 +9,7 @@ import java.util.Date;
  */
 
 public class Note extends SugarRecord {
-    private String title, content;
+    private String title, content, excerpt;
 
     public Note() {
 
@@ -39,5 +39,13 @@ public class Note extends SugarRecord {
     @Override
     public String toString() {
         return title;
+    }
+
+    public String getExcerpt() {
+        return excerpt;
+    }
+
+    public void setExcerpt(String excerpt) {
+        this.excerpt = excerpt;
     }
 }

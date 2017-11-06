@@ -25,13 +25,14 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView title, content;
+        public TextView tvTitle, tvExcerpt;
         public long id;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            title = (TextView) itemView.findViewById(R.id.tvTitle);
+            tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
+            tvExcerpt = (TextView) itemView.findViewById(R.id.tvExcerpt);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -62,7 +63,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Note note = notes.get(position);
-        holder.title.setText(note.getTitle());
+        holder.tvTitle.setText(note.getTitle());
+        holder.tvExcerpt.setText(note.getExcerpt());
         holder.id = note.getId();
     }
 
