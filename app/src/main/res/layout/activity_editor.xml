@@ -4,22 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="60dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginStart="10dp"
-        android:clickable="true"
-        android:src="@drawable/ic_save_white_24dp" />
-
     <HorizontalScrollView android:id="@+id/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

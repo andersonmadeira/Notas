@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +25,6 @@ import io.github.mthli.knife.KnifeText;
 public class EditorActivity extends AppCompatActivity {
 
     private KnifeText knife;
-    private FloatingActionButton fabSave;
     private EditorActivity thisActivity;
 
     private Note note;
@@ -36,15 +36,6 @@ public class EditorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editor);
 
         knife = (KnifeText) findViewById(R.id.knife);
-
-        fabSave = (FloatingActionButton) findViewById(R.id.fabSave);
-        fabSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                thisActivity.saveNote();
-                thisActivity.finish();
-            }
-        });
 
         Bundle b = getIntent().getExtras();
         long id = b.getLong("id");
@@ -77,6 +68,7 @@ public class EditorActivity extends AppCompatActivity {
         note.setExcerpt( plainText.substring(0, Math.min(plainText.length(), 150)) );
         note.setUpdatedAt( new Date() );
         note.save();
+        this.thisActivity.finish();
     }
 
     private void setupBold() {
@@ -282,8 +274,8 @@ public class EditorActivity extends AppCompatActivity {
             case R.id.redo:
                 knife.redo();
                 break;
-            case R.id.delete:
-                deleteNote();
+            case R.id.save:
+                saveNote();
                 break;
             default:
                 break;

@@ -4,15 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Date;
 import java.util.List;
 
 import br.com.andersonmadeira.notas.EditorActivity;
+import br.com.andersonmadeira.notas.MainActivity;
 import br.com.andersonmadeira.notas.R;
 import br.com.andersonmadeira.notas.Util.Util;
 import br.com.andersonmadeira.notas.model.Note;
@@ -22,7 +27,7 @@ import br.com.andersonmadeira.notas.model.Note;
  */
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder> {
-    private final Context context;
+    private MainActivity editor;
     private List<Note> notes;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -40,18 +45,37 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, EditorActivity.class);
+                    Intent intent = new Intent(editor, EditorActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putLong("id", id);
                     intent.putExtras(bundle);
-                    context.startActivity(intent);
+                    editor.startActivity(intent);
                 }
             });
+
+            itemView.setLongClickable(true);
+            
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Toast.makeText(editor, "Long Click", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
+
+            itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+                @Override
+                public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                    menu.add(Menu.NONE, 0, Menu.NONE, "Edit");
+                    menu.add(Menu.NONE, 1, Menu.NONE, "Delete");
+                }
+            });
+
         }
     }
 
-    public NotesAdapter(List<Note> noteList, Context context) {
-        this.context = context;
+    public NotesAdapter(List<Note> noteList, MainActivity editorActivity) {
+        this.editor = editorActivity;
         this.notes = noteList;
     }
 

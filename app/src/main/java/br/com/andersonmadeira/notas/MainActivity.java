@@ -11,9 +11,13 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<Note> noteList = new ArrayList<>();
     private NotesAdapter myAdapter;
+    private String newNoteTitle;
+
+    protected static long activeNoteId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +54,9 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 TextView tvTitle = ((TextView) ((AlertDialog)dialog).findViewById(R.id.etTitle));
-                                String title = tvTitle.getText().toString();
+                                newNoteTitle = tvTitle.getText().toString();
 
-                                Intent intent = new Intent(thisActivity, EditorActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putInt("id", 0);
-                                bundle.putString("tvTitle", title);
-                                intent.putExtras(bundle);
-                                startActivity(intent);
+                                editNote(0);
                             }
                         })
                         .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -97,5 +99,43 @@ public class MainActivity extends AppCompatActivity {
         }
 
         myAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info =(AdapterView.AdapterContextMenuInfo)
+                item.getMenuInfo();
+        switch (item.getItemId()) {
+            case 0:
+                editNote(0);
+                break;
+            case 1:
+                deleteNote();
+                break;
+
+            default:
+                break;
+
+        }
+        return true;
+    }
+
+    private void editNote(long noteId) {
+        String title = "";
+
+        if (noteId == 0) {
+            title = newNoteTitle;
+        }
+
+        Intent intent = new Intent(thisActivity, EditorActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putLong("id", noteId);
+        bundle.putString("tvTitle", title);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    private void deleteNote() {
+
     }
 }
