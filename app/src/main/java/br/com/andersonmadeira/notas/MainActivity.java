@@ -2,8 +2,11 @@ package br.com.andersonmadeira.notas;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.preference.ListPreference;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,12 +39,15 @@ public class MainActivity extends AppCompatActivity {
     private String newNoteTitle;
 
     protected static long activeNoteId;
+    private RelativeLayout rlRootMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         thisActivity = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        rlRootMain = (RelativeLayout) findViewById(R.id.rlRootMain);
 
         fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
         fabAdd.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
                         });
 
                 builder.show();
-
             }
         });
 
@@ -103,16 +109,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info =(AdapterView.AdapterContextMenuInfo)
-                item.getMenuInfo();
+        Note noteObj = noteList.get(item.getOrder());
+
         switch (item.getItemId()) {
             case 0:
-                editNote(0);
+                editNote(noteObj.getId());
                 break;
             case 1:
-                deleteNote();
+                deleteNote(noteObj);
                 break;
-
             default:
                 break;
 
@@ -135,7 +140,34 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void deleteNote() {
+    private void deleteNote(final Note obj) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Tem certeza que deseja excluir essa nota?")
+                .setCancelable(false)
+                .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        noteList.remove(obj);
+                        obj.delete();
+                        myAdapter.notifyDataSetChanged();
 
+                        final Snackbar snackbar = Snackbar
+                                .make(rlRootMain, "Nota apagada com sucesso!", Snackbar.LENGTH_LONG);
+                        snackbar.setAction("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                snackbar.dismiss();
+                            }
+                        });
+                        snackbar.setActionTextColor(ContextCompat.getColor(thisActivity, R.color.colorAccent));
+                        snackbar.show();
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

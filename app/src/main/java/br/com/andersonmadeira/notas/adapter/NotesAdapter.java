@@ -30,7 +30,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
     private MainActivity editor;
     private List<Note> notes;
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
         public TextView tvTitle, tvExcerpt, tvUpdatedAt;
         public long id;
@@ -54,23 +54,15 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
             });
 
             itemView.setLongClickable(true);
-            
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    Toast.makeText(editor, "Long Click", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            });
+            itemView.setOnCreateContextMenuListener(this);
 
-            itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-                @Override
-                public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-                    menu.add(Menu.NONE, 0, Menu.NONE, "Edit");
-                    menu.add(Menu.NONE, 1, Menu.NONE, "Delete");
-                }
-            });
+        }
 
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.setHeaderTitle("Selecione uma ação");
+            menu.add(0, 0, getAdapterPosition(), "Editar");
+            menu.add(0, 1, getAdapterPosition(), "Apagar");
         }
     }
 
