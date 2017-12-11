@@ -1,4 +1,4 @@
-package br.com.andersonmadeira.notas;
+package com.andersonmadeira.notas;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,11 +23,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andersonmadeira.notas.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.andersonmadeira.notas.adapter.NotesAdapter;
-import br.com.andersonmadeira.notas.model.Note;
+import com.andersonmadeira.notas.adapter.NotesAdapter;
+import com.andersonmadeira.notas.model.Note;
 
 public class MainActivity extends AppCompatActivity {
 

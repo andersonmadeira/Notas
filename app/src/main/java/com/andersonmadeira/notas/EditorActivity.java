@@ -1,4 +1,4 @@
-package br.com.andersonmadeira.notas;
+package com.andersonmadeira.notas;
 
 import android.content.DialogInterface;
 import android.support.design.widget.FloatingActionButton;
@@ -15,11 +15,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.andersonmadeira.notas.R;
+
 import org.jsoup.Jsoup;
 
 import java.util.Date;
 
-import br.com.andersonmadeira.notas.model.Note;
+import com.andersonmadeira.notas.model.Note;
 import io.github.mthli.knife.KnifeText;
 
 public class EditorActivity extends AppCompatActivity {

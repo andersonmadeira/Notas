@@ -1,4 +1,4 @@
-package br.com.andersonmadeira.notas.Util;
+package com.andersonmadeira.notas.Util;
 
 import java.text.DateFormat;
 import java.util.Date;

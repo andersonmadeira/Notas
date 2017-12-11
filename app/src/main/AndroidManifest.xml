@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.com.andersonmadeira.notas">
+    package="com.andersonmadeira.notas">
 
     <application
         android:name="com.orm.SugarApp"

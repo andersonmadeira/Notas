@@ -1,4 +1,4 @@
-package br.com.andersonmadeira.notas.model;
+package com.andersonmadeira.notas.model;
 
 import com.orm.SugarRecord;
 import java.util.Date;

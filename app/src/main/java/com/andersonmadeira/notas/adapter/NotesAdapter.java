@@ -1,4 +1,4 @@
-package br.com.andersonmadeira.notas.adapter;
+package com.andersonmadeira.notas.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,11 +16,11 @@ import android.widget.Toast;
 import java.util.Date;
 import java.util.List;
 
-import br.com.andersonmadeira.notas.EditorActivity;
-import br.com.andersonmadeira.notas.MainActivity;
-import br.com.andersonmadeira.notas.R;
-import br.com.andersonmadeira.notas.Util.Util;
-import br.com.andersonmadeira.notas.model.Note;
+import com.andersonmadeira.notas.EditorActivity;
+import com.andersonmadeira.notas.MainActivity;
+import com.andersonmadeira.notas.R;
+import com.andersonmadeira.notas.Util.Util;
+import com.andersonmadeira.notas.model.Note;
 
 /**
  * Created by anderson on 29/10/17.
